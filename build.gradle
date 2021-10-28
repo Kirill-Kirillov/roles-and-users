@@ -27,6 +27,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.12'
+	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.5.0'
 }
 
 test {
