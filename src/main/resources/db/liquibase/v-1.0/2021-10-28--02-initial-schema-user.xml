@@ -4,14 +4,11 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
     <changeSet author="kirill.Kirillov" id="20211028-02-initial-schema-user">
         <createTable tableName="users" remarks="Таблица пользователей">
-            <column name="user_id" type="VARCHAR(255)" remarks="Идентификатор пользователя">
+            <column name="user_name" type="VARCHAR(255)" remarks="Имя пользователя">
                 <constraints primaryKey="true" primaryKeyName="PK_USER"/>
             </column>
-            <column name="user_name" type="VARCHAR(30)" remarks="Наименование пользователя">
-                <constraints nullable="false"/>
-            </column>
             <column name="email" type="VARCHAR(50)" remarks="Email пользователя">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="date_of_birth" type="DATE" remarks="Дата рождения пользователя"/>
         </createTable>

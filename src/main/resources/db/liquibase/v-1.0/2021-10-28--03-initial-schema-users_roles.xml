@@ -3,16 +3,16 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
     <changeSet author="kirill.Kirillov" id="20211028-02-initial-schema-user">
-        <createTable tableName="user_role" remarks="Таблица, отображающая связь пользователь - роль">
-            <column name="user_id" type="VARCHAR(255)" remarks="Идентификатор пользователя">
+        <createTable tableName="users_roles" remarks="Таблица, отображающая связь пользователь - роль">
+            <column name="user_name" type="VARCHAR(255)" remarks="Идентификатор пользователя">
                 <constraints
-                        foreignKeyName="user_id_fkey"
+                        foreignKeyName="user_name_fkey"
+                        referencedColumnNames="user_name"
                         referencedTableName="users"
-                        referencedColumnNames="user_id"
                         deleteCascade="false"
                         nullable="false"/>
             </column>
-            <column name="role_id" type="BIGINT" remarks="Идентификатор роль">
+            <column name="role_id" type="BIGINT" remarks="Идентификатор роли">
                 <constraints
                         foreignKeyName="role_id_fkey"
                         referencedColumnNames="role_id"

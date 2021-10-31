@@ -4,4 +4,5 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
    <include file="2021-10-28--01-initial-schema-role.xml" relativeToChangelogFile="true" />
    <include file="2021-10-28--02-initial-schema-user.xml" relativeToChangelogFile="true" />
+   <include file="2021-10-28--03-initial-schema-users_roles.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
