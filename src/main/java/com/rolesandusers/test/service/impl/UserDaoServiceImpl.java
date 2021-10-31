@@ -29,8 +29,9 @@ public class UserDaoServiceImpl implements UserDaoService {
 
     @Override
     public void deleteUser(String userName) {
-        this.checkByNameAndThrowIfNotExist(userName);
-        userRepository.deleteById(userName);
+        User user = getUserByNameOrThrowIfNotExist(userName);
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 
     @Override
@@ -46,23 +47,22 @@ public class UserDaoServiceImpl implements UserDaoService {
 
     @Override
     public User getUserByName(String userName) {
-        User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь '" + userName + "' не найден"));
+        User user = this.getUserByNameOrThrowIfNotExist(userName);
         return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findUserByDeletedIsFalse();
     }
 
     @Override
     public List<User> getUsersBornInPeriod(LocalDate after, LocalDate before) {
-        return userRepository.findUserByDateOfBirthAfterAndDateOfBirthBefore(after, before);
+        return userRepository.findUserByDateOfBirthAfterAndDateOfBirthBeforeAndDeletedIsFalse(after, before);
     }
 
     private User getUserByNameOrThrowIfNotExist(String username) {
-        return userRepository.findByUserName(username)
+        return userRepository.findByUserNameAndDeletedIsFalse(username)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь '" + username + "' не найден"));
     }
 
@@ -71,11 +71,6 @@ public class UserDaoServiceImpl implements UserDaoService {
         if (userByName.isPresent()) {
             throw new UserAlreadyExistException("Пользователь '" + name + "' уже существует");
         }
-    }
-
-    private void checkByNameAndThrowIfNotExist(String name){
-        userRepository.findByUserName(name)
-                .orElseThrow(() -> new UserNotFoundException("Роль с именем '" + name + "' не найдена"));
     }
 
     private void checkByEmailAndThrowIfExist(String email){

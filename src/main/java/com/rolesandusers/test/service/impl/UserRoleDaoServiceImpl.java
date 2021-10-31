@@ -1,7 +1,6 @@
 package com.rolesandusers.test.service.impl;
 
 import com.rolesandusers.test.exception.RoleNotFoundException;
-import com.rolesandusers.test.exception.UserAlreadyExistException;
 import com.rolesandusers.test.exception.UserNotFoundException;
 import com.rolesandusers.test.model.entity.Role;
 import com.rolesandusers.test.model.entity.User;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,25 +47,13 @@ public class UserRoleDaoServiceImpl implements UserRoleDaoService {
 
     @Override
     public Set<User> getUsersByRole(String role) {
-        Set<User> users = userRepository.findUserByRoles_nameIs(role);
+        Set<User> users = userRepository.findUserByRoles_nameIsAndDeletedIsFalse(role);
         return users;
     }
 
-    private void checkByNameAndThrowIfExist(String name){
-        Optional<User> userByName = userRepository.findByUserName(name);
-        if (userByName.isPresent()) {
-            throw new UserAlreadyExistException("Пользователь '" + name + "' уже существует");
-        }
-    }
-
     private User getUserByNameOrThrowIfNotExist(String username) {
-        return userRepository.findByUserName(username)
+        return userRepository.findByUserNameAndDeletedIsFalse(username)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь '" + username + "' не найден"));
-    }
-
-    private void checkUserByNameAndThrowIfNotExist(String name){
-        userRepository.findByUserName(name)
-                .orElseThrow(() -> new UserNotFoundException("Роль с именем '" + name + "' не найдена"));
     }
 
     private Role getRoleByNameAndThrowIfNotExist(String name){
