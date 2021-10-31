@@ -26,12 +26,14 @@ public interface UserMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "dateOfBirth", source = "dateOfBirth")
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     User mapAddUserRequestToUser(AddUserRequest request);
 
     @Mapping(target = "email", source = "email")
     @Mapping(target = "dateOfBirth", source = "dateOfBirth")
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "userName", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     User mapEditUserRequestToUserWithoutRole(EditUserRequest userDto);
 
     @Named("getRolesForUserDto")
